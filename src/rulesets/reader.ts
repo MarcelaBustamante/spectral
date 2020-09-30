@@ -44,6 +44,10 @@ export async function readRuleset(uris: string | string[], opts?: IRulesetReadOp
     if (resolvedRuleset.documentationUrl !== void 0 && !('documentationUrl' in base)) {
       base.documentationUrl = resolvedRuleset.documentationUrl;
     }
+
+    if (resolvedRuleset.parserOptions !== void 0 && !('parserOptions' in base)) {
+      base.parserOptions = resolvedRuleset.parserOptions;
+    }
   }
 
   return base;
@@ -94,6 +98,7 @@ const createRulesetProcessor = (
       rules,
       functions,
       exceptions,
+      ...('parserOptions' in ruleset ? { parserOptions: ruleset.parserOptions } : null),
     };
 
     const extendedRulesets = ruleset.extends;

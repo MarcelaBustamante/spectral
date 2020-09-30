@@ -7,7 +7,7 @@ import { IRuleResult } from './types';
 const toUpperCase = (word: string) => word.toUpperCase();
 const splitWord = (word: string, end: string, start: string) => `${end} ${start.toLowerCase()}`;
 
-export function getDiagnosticErrorMessage(diagnostic: IDiagnostic) {
+export function getDiagnosticErrorMessage(diagnostic: IDiagnostic): string {
   const key = getPropertyKey(diagnostic.path);
   let prettifiedMessage = diagnostic.message.replace(/^[a-z]/, toUpperCase);
 
@@ -37,7 +37,7 @@ export function formatParserDiagnostics(diagnostics: ReadonlyArray<IDiagnostic>,
     code: 'parser',
     message: getDiagnosticErrorMessage(diagnostic),
     path: diagnostic.path ?? [],
-    ...(source !== null && { source }),
+    ...(source !== null ? { source } : null),
   }));
 }
 
@@ -53,7 +53,7 @@ export const formatResolverErrors = (document: IDocument, diagnostics: IResolveE
       message: prettyPrintResolverErrorMessage(error.message),
       severity: DiagnosticSeverity.Error,
       range,
-      ...(source !== null && { source }),
+      ...(source !== null ? { source } : null),
     };
   });
 };

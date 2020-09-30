@@ -1040,6 +1040,41 @@ describe('Ruleset Validation', () => {
       });
     });
   });
+
+  describe('parser options validation', () => {
+    it('recognizes valid options', () => {
+      expect(
+        assertValidRuleset.bind(null, {
+          extends: [],
+          parserOptions: {
+            incompatibleValues: 'warn',
+          },
+        }),
+      ).not.toThrow();
+
+      expect(
+        assertValidRuleset.bind(null, {
+          extends: [],
+          parserOptions: {
+            incompatibleValues: 2,
+            duplicateKeys: 'hint',
+          },
+        }),
+      ).not.toThrow();
+    });
+
+    it('given invalid values, throws', () => {
+      expect(
+        assertValidRuleset.bind(null, {
+          extends: [],
+          parserOptions: {
+            incompatibleValues: 5,
+            duplicateKeys: 'foo',
+          },
+        }),
+      ).toThrow(ValidationError);
+    });
+  });
 });
 
 describe('Function Validation', () => {
